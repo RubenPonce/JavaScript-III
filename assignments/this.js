@@ -39,7 +39,7 @@ function Binding(name){
     }
 }
 const steven = new Binding ('Steven');
-// console.log(steven.bio()); 
+//console.log(steven.bio()); 
 // Principle 4
 
 // code example for Explicit Binding
@@ -55,4 +55,5 @@ function Occupation(name, school, occupation){
         return `${this.name} is a ${this.occupation} that went to ${this.school}`
     }
 }
-// console.log(new Occupation('Ruben', 'Lambda School', 'Full Stack Developer').introduction())
+const newPerson = new Occupation('Ruben', 'Lambda School', 'Full Stack Developer')
+// console.log(newPerson.introduction())
