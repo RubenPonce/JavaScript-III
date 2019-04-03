@@ -51,28 +51,15 @@ Villain.prototype.useWeapon = this.useWeapon = function() {
   return -1;
 }
 Hero.prototype = Object.create(Humanoid.prototype);
-Hero.prototype.useWeapon = this.useWeapon = function() {
-  return -1
-}
-
-function Villain(evil) {
-  Humanoid.call(this, evil)
-  let roll = Math.floor((Math.random() * 5) + 1)
-  if(roll %2===0 ){
-    evil.hit = true;
-  } else{
-     evil.hit = false;
+Hero.prototype.useWeapon = this.useWeapon = function(hit) {
+  if(hit){
+    return --this.healthPoints
   }
-  console.log(evil.hit);
-}
-function Hero(good) {
-  GameObject.call(this, good)
-
+  return this.healthPoints;
 }
 
 
-
-const villain = new Villain({
+let villain = new Villain({
   createdAt: new Date(),
   dimensions: {
     length: 2,
@@ -80,14 +67,43 @@ const villain = new Villain({
     height: 1
   },
   healthPoints: 5,
-  name: "Bruce",
+  name: "Villain",
   team: "Mage Guild",
   weapons: ["Staff of Shamalama"],
   language: "Common Tongue",
   hit: ""
 });
 
-console.log(villain.useWeapon());
+function Villain(evil) {
+  Humanoid.call(this, evil)
+  let roll = Math.floor((Math.random() * 5) + 1)
+  if(roll %2===0 ){
+    evil.hit = this.takeDamage();
+    console.log(evil.hit)
+    evil.healthPoints = evil.healthPoints-1; 
+    console.log(`Hero has ${evil.healthPoints} health points`)
+  } else{
+    console.log('The Hero Missed!')
+  }
+  
+}
+function Hero(good) {
+  Humanoid.call(this, good)
+  let roll = Math.floor((Math.random() * 5) + 1)
+  if(roll %2===0 ){
+    good.hit = this.takeDamage();
+    console.log(good.hit)
+    good.healthPoints = good.healthPoints-1; 
+    console.log('The Villain Missed')
+  } else{
+ 
+    console.log(`Vilain has ${good.healthPoints} health points`)
+  }
+  
+}
+
+
+
 
 /*
   === Humanoid (Having an appearance or character resembling that of a human.) ===
@@ -107,59 +123,6 @@ console.log(villain.useWeapon());
 
 // Test you work by un-commenting these 3 objects and the list of console logs below:
 
-const mage = new Humanoid({
-  createdAt: new Date(),
-  dimensions: {
-    length: 2,
-    width: 1,
-    height: 1
-  },
-  healthPoints: 5,
-  name: "Bruce",
-  team: "Mage Guild",
-  weapons: ["Staff of Shamalama"],
-  language: "Common Tongue"
-});
-console.log(mage);
-
-const swordsman = new Humanoid({
-  createdAt: new Date(),
-  dimensions: {
-    length: 2,
-    width: 2,
-    height: 2
-  },
-  healthPoints: 15,
-  name: "Sir Mustachio",
-  team: "The Round Table",
-  weapons: ["Giant Sword", "Shield"],
-  language: "Common Tongue"
-});
-
-const archer = new Humanoid({
-  createdAt: new Date(),
-  dimensions: {
-    length: 1,
-    width: 2,
-    height: 4
-  },
-  healthPoints: 10,
-  name: "Lilith",
-  team: "Forest Kingdom",
-  weapons: ["Bow", "Dagger"],
-  language: "Elvish"
-});
-
-console.log(mage.createdAt); // Today's date
-console.log(archer.dimensions); // { length: 1, width: 2, height: 4 }
-console.log(swordsman.healthPoints); // 15
-console.log(mage.name); // Bruce
-console.log(swordsman.team); // The Round Table
-console.log(mage.weapons); // Staff of Shamalama
-console.log(archer.language); // Elvish
-console.log(archer.greet()); // Lilith offers a greeting in Elvish.
-console.log(mage.takeDamage()); // Bruce took damage.
-console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
 
 // Stretch task:
 // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.
